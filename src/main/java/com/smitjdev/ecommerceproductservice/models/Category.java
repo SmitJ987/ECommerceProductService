@@ -1,5 +1,10 @@
 package com.smitjdev.ecommerceproductservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +17,15 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category extends BaseModel implements Serializable {
+
+@Entity
+public class Category extends BaseModel
+{
+    @Column(unique = true)
     private String title;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     private List<Product> products;
 
     @Override

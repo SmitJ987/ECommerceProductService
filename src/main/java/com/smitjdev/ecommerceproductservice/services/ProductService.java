@@ -31,4 +31,6 @@ public interface ProductService {
     public Product updateProductViaPut(Product product);
 
     public ResponseEntity<Product> updateProductViaPatch(JsonPatch patch, Long productId);
+
+    public Category deleteCategory(Long id);
 }

@@ -1,6 +1,9 @@
 package com.smitjdev.ecommerceproductservice.models;
 
 import com.smitjdev.ecommerceproductservice.dtos.FakeStoreProductDto;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,12 +15,16 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
+@Entity
 public class Product extends BaseModel{
 
     private String title;
     private String description;
     private double price;
     private String imageUrl;
+
+    @ManyToOne(cascade = CascadeType.PERSIST) //means when put new product: if category doesn't exist: it will first create the category in category table, and then it will save the product.
     private Category category;
 
     @Override

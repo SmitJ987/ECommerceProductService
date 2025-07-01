@@ -7,7 +7,9 @@ import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.smitjdev.ecommerceproductservice.models.Category;
 import com.smitjdev.ecommerceproductservice.models.Product;
+import com.smitjdev.ecommerceproductservice.repositories.CategoryRepository;
 import com.smitjdev.ecommerceproductservice.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +24,13 @@ import java.util.List;
 @RestController
 public class ProductController {
 
+    private final CategoryRepository categoryRepository;
     ProductService productService;
 
-    public ProductController(ProductService productService)
+    public ProductController(@Qualifier("selfProductService") ProductService productService, CategoryRepository categoryRepository)
     {
         this.productService = productService;
+        this.categoryRepository = categoryRepository;
     }
 
     //seven end points:
@@ -74,7 +78,7 @@ public class ProductController {
     }
 
     //6: getAllProductsFromASpecificCategory
-    @GetMapping("/products/byCategory/{category}")
+    @GetMapping("/products/category/{category}")
     public List<Product> getProductsInCategory(@PathVariable("category") String category)
     {
         List<Product> productList = productService.getProductsInCategory(category);
@@ -124,6 +128,14 @@ public class ProductController {
     {
         ResponseEntity<Product> response = productService.updateProductViaPatch(patch,id);
         return response.getBody();
+    }
+
+    //9: delete a category
+    @DeleteMapping("/products/categories/{id}")
+    public Category deleteCategory(@PathVariable("id") Long categoryId)
+    {
+        Category deletedCategory = productService.deleteCategory(categoryId);
+        return deletedCategory;
     }
 
 

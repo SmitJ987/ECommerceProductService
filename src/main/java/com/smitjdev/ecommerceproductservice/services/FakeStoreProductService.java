@@ -196,4 +196,10 @@ public class FakeStoreProductService implements ProductService{
         JsonNode patchedNode = patch.apply(objectMapper.convertValue(targetProduct, JsonNode.class));
         return objectMapper.treeToValue(patchedNode,Product.class);
     }
+
+    @Override
+    public Category deleteCategory(Long categoryId)
+    {
+        return null;
+    }
 }
